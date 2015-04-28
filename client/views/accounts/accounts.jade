@@ -1,0 +1,47 @@
+h3 Accounts
+
+h4 Account Creation
+.row
+  .col-xs-4
+    form(name='accoutTypeForm', novalidate)
+      .form-group
+        label(for='accountName') Account Name
+        input.form-control#accountName(type='text', name='accountName', ng-model='accountName')
+      .form-group
+        button.btn.btn-default(type='submit', ng-click='addAccount(accountName)') Add Account
+  .col-xs-8
+h4 Transactions
+.row
+  .col-xs-4
+    form(name='transactionForm', novalidate)
+      .form-group
+        label(for='accountType') Account Type
+        select.form-control#accountType(name='accountType', ng-model='tx.type')
+          option(ng-repeat='name in names track by $index') {{name}}
+      .form-group
+        label(for='accountName') Ammount
+        input.form-control#ammount(type='number', name='ammount', ng-model='tx.ammount')
+      .form-group
+        label(for='date') Date
+        input.form-control#date(type='date', name='date', ng-model='tx.date')
+      .form-group
+        button.btn.btn-success(ng-click='addTransaction("deposit", tx)') Deposit
+        button.btn.btn-warning(ng-click='addTransaction("withdraw", tx)') Withdraw
+  .col-xs-8
+table.table.table-striped(ng-repeat='(key, value) in afUser.accounts')
+  thead
+    tr
+      th Ammount
+      th Name
+      th Date
+      th Created At
+      th Edit
+      th Delete
+  tbody
+    tr(ng-repeat='transaction in afUser.accounts[key]')
+      td {{transaction.ammount | currency}}
+      td {{transaction.name | uppercase}}
+      td {{transaction.date | date:'yyyy-MM-dd'}}
+      td {{transaction.createdAt | date:'yyyy-MM-dd'}}
+      td: button.btn-sm.btn-warning(ng-click='editTransaction(transaction)') Edit
+      td: button.btn-sm.btn-danger(ng-click='delTransaction(transaction, $index)') Delete
